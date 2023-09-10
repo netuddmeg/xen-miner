@@ -5,12 +5,21 @@ from passlib.hash import argon2
 import hashlib
 from random import choice, randrange
 import string
+import os
 
 
 difficulty = 1
 memory_cost = 120
 cores = 1
-account = "0x0A6969ffF003B760c97005e03ff5a9741126167A"
+account = os.getenv("ACCOUNT", "0xF120007d00480034fAf40000e1727C7809734b20")
+stat_cycle = int(os.getenv("STAT_CYCLE", 100000))
+print("--------------User Configuration--------------")
+print(f"time: {difficulty}")
+print(f"memory: {memory_cost}")
+print(f"cores: {cores}")
+print(f"account: {account}")
+print(f"stat cycle: {stat_cycle} hashes")
+print("----------------------------------------------")
 
 class Block:
     def __init__(self, index, prev_hash, data, valid_hash, random_data, attempts):
@@ -56,24 +65,23 @@ def mine_block(target_substr, prev_hash):
     attempts = 0
     random_data = None
     start_time = time.time()
-    
-    with tqdm(total=None, dynamic_ncols=True, desc="Mining", unit="hash") as pbar:
-        while True:
-            attempts += 1
-            random_data = generate_random_sha256()
-            hashed_data = argon2_hasher.hash(random_data + prev_hash)
-    
-            if target_substr in hashed_data[-87:]:
-                print(f"\nFound valid hash after {attempts} attempts: {hashed_data}")
-                break
 
-            pbar.update(1)
+    prev_time = start_time
+    while True:
+        attempts += 1
+        random_data = generate_random_sha256()
+        hashed_data = argon2_hasher.hash(random_data + prev_hash)
 
-            if attempts % 100 == 0:  # Update every 100 attempts
-                elapsed_time = time.time() - start_time
-                hashes_per_second = attempts / elapsed_time
-                pbar.set_postfix({"Hash/s": hashes_per_second}, refresh=True)
+        if target_substr in hashed_data[-87:]:
+            print(f"Found valid hash after {attempts} attempts: {hashed_data}")
+            break
 
+        if attempts % stat_cycle == 0:
+            now = time.time()
+            cost = now - prev_time
+            prev_time = now
+            speed = stat_cycle / cost
+            print(f"speed: {speed:.2f}/s")
 
     end_time = time.time()
     elapsed_time = end_time - start_time
