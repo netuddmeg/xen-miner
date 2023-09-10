@@ -1,3 +1,5 @@
+.PHONY: requirement image* dev act sync
+
 IMAGE_NAME=cnsumi/xen-miner
 IMAGE_TAG=latest
 IMAGE="${IMAGE_NAME}:${IMAGE_TAG}"
@@ -16,7 +18,9 @@ dev:
 	python3 miner.py
 
 act:
-	act workflow_dispatch
+	act workflow_dispatch \
+	-s DOCKERHUB_USERNAME \
+	-s DOCKERHUB_PASSWORD
 
 sync: 
 	rsync -avh . \
