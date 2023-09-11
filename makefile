@@ -13,6 +13,11 @@ image:
 image-run:
 	docker run -it --rm ${IMAGE}
 
+image-buildx:
+	docker buildx build \
+	--platform linux/amd64,linux/arm64 \
+	.
+
 dev:
 	STAT_CYCLE=100000 \
 	python3 miner.py
