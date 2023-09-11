@@ -6,19 +6,18 @@ import hashlib
 from random import choice, randrange
 import string
 import os
+from tqdm import tqdm
 
 
 difficulty = int(os.getenv("DIFFICULTY", 1))
 memory_cost = int(os.getenv("MEMORY", 8))
 cores = int(os.getenv("CORES", 1))
 account = os.getenv("ACCOUNT", "0xF120007d00480034fAf40000e1727C7809734b20")
-stat_cycle = int(os.getenv("STAT_CYCLE", 100000))
 print("--------------User Configuration--------------")
 print(f"time: {difficulty}")
 print(f"memory: {memory_cost}")
 print(f"cores: {cores}")
 print(f"account: {account}")
-print(f"stat cycle: {stat_cycle} hashes")
 print("----------------------------------------------")
 
 class Block:
@@ -57,28 +56,25 @@ def generate_random_sha256(max_length=128):
     sha256.update(random_string.encode('utf-8'))
     return sha256.hexdigest()
 
+
+
 def mine_block(target_substr, prev_hash):
     argon2_hasher = argon2.using(time_cost=difficulty, salt=b"XEN10082022XEN", memory_cost=memory_cost, parallelism=cores, hash_len = 64)
     attempts = 0
     random_data = None
     start_time = time.time()
+    
+    with tqdm(total=None, dynamic_ncols=True, desc="Mining", unit=" hash") as pbar:
+        while True:
+            attempts += 1
+            random_data = generate_random_sha256()
+            hashed_data = argon2_hasher.hash(random_data + prev_hash)
+    
+            if target_substr in hashed_data[-87:]:
+                print(f"\nFound valid hash after {attempts} attempts: {hashed_data}")
+                break
 
-    prev_time = start_time
-    while True:
-        attempts += 1
-        random_data = generate_random_sha256()
-        hashed_data = argon2_hasher.hash(random_data + prev_hash)
-
-        if target_substr in hashed_data[-87:]:
-            print(f"Found valid hash after {attempts} attempts: {hashed_data}")
-            break
-
-        if attempts % stat_cycle == 0:
-            now = time.time()
-            cost = now - prev_time
-            prev_time = now
-            speed = stat_cycle / cost
-            print(f"speed: {speed:.2f}/s")
+            pbar.update(1)
 
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -91,12 +87,12 @@ def mine_block(target_substr, prev_hash):
         "account": account,
         "attempts": attempts,
         "hashes_per_second": hashes_per_second
-        }
+    }
 
     print (payload)
 
     # Make the POST request
-    response = requests.post('http://proofofwork.mooo.com/verify', json=payload)
+    response = requests.post('http://xenminer.mooo.com/verify', json=payload)
 
     # Print the HTTP status code
     print("HTTP Status Code:", response.status_code)
@@ -113,9 +109,9 @@ def mine_block(target_substr, prev_hash):
 def verify_block(block):
     argon2_hasher = argon2.using(time_cost=difficulty, memory_cost=memory_cost, parallelism=cores)
     #debug
-    print ("Key: ");
+    print ("Key: ")
     print (block['random_data'] + block['prev_hash'])
-    print ("Hash: ");
+    print ("Hash: ")
     print (block['valid_hash'])
     return argon2_hasher.verify(block['random_data'] + block['prev_hash'], block['valid_hash'])
 
@@ -145,4 +141,3 @@ if __name__ == "__main__":
     blockchain_json = json.dumps(blockchain, indent=4)
     with open("blockchain.json", "w") as f:
         f.write(blockchain_json)
-
