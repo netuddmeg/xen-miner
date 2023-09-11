@@ -11,4 +11,3 @@ FROM base
 COPY miner.py .
 
 ENTRYPOINT [ "python3", "/app/miner.py" ]
-
