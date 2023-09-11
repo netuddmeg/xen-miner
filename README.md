@@ -8,7 +8,6 @@
 # use docker run a single container
 docker run -it --rm \
     -e ACCOUNT=0xF120007d00480034fAf40000e1727C7809734b20 \
-    -e STAT_CYCLE=100000 \
     cnsumi/xen-miner:latest \
     -d
 
