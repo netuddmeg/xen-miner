@@ -6,18 +6,19 @@ import hashlib
 from random import choice, randrange
 import string
 import os
-from tqdm import tqdm
 
 
 difficulty = 1
 memory_cost = 120
 cores = 1
 account = os.getenv("ACCOUNT", "0xF120007d00480034fAf40000e1727C7809734b20")
+stat_cycle = int(os.getenv("STAT_CYCLE", 100000))
 print("--------------User Configuration--------------")
 print(f"time: {difficulty}")
 print(f"memory: {memory_cost}")
 print(f"cores: {cores}")
 print(f"account: {account}")
+print(f"stat cycle: {stat_cycle}")
 print("----------------------------------------------")
 
 class Block:
@@ -63,18 +64,25 @@ def mine_block(target_substr, prev_hash):
     attempts = 0
     random_data = None
     start_time = time.time()
+    prev_time = start_time
     
-    with tqdm(total=None, dynamic_ncols=True, desc="Mining", unit=" hash") as pbar:
-        while True:
-            attempts += 1
-            random_data = generate_random_sha256()
-            hashed_data = argon2_hasher.hash(random_data + prev_hash)
-    
-            if target_substr in hashed_data[-87:]:
-                print(f"\nFound valid hash after {attempts} attempts: {hashed_data}")
-                break
+    while True:
+        attempts += 1
+        random_data = generate_random_sha256()
+        hashed_data = argon2_hasher.hash(random_data + prev_hash)
 
-            pbar.update(1)
+        if target_substr in hashed_data[-87:]:
+            print(f"\nFound valid hash after {attempts} attempts: {hashed_data}")
+            break
+
+        if attempts % stat_cycle == 0:
+            now = time.time()
+            cost = now - prev_time
+            prev_time = now
+
+            speed = stat_cycle / (cost)
+            print(f"speed: {speed:.2f} hash/s")            
+
 
     end_time = time.time()
     elapsed_time = end_time - start_time

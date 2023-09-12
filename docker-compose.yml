@@ -5,4 +5,5 @@ services:
     image: cnsumi/xen-miner:latest
     environment:
       - ACCOUNT=0xF120007d00480034fAf40000e1727C7809734b20
+      - STAT_CYCLE=100000
     tty: true
