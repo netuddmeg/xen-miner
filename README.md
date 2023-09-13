@@ -1,9 +1,9 @@
 # standalone:
 
-## Ubuntu linux 20.04 LTS:
+## Ubuntu linux 20.04/22.04 LTS:
 
 0. sudo apt update && sudo apt install git python3.10-venv python3-pip -y
-1. git clone https://github.com/jacklevin74/xenminer.git
+1. git clone https://github.com/netuddmeg/xen-miner.git
 2. cd xenminer
 3. python3 -m venv .
 4. source ./bin/activate
