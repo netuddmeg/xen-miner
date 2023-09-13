@@ -7,6 +7,5 @@ services:
       - ACCOUNT=0xF120007d00480034fAf40000e1727C7809734b20
       - STAT_CYCLE=100000
       - DIFFICULTY=1
-      - MEMORY=120
       - CORE=1
     tty: true

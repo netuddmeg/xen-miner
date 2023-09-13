@@ -9,17 +9,25 @@ import os
 
 
 difficulty = int(os.getenv("DIFFICULTY", 1))
-memory_cost = int(os.getenv("MEMORY", 120))
+memory_cost = int(os.getenv("MEMORY", 8))
 cores = int(os.getenv("CORE", 1))
 account = os.getenv("ACCOUNT", "0xF120007d00480034fAf40000e1727C7809734b20")
 stat_cycle = int(os.getenv("STAT_CYCLE", 100000))
 print("--------------User Configuration--------------")
 print(f"time: {difficulty}")
-print(f"memory: {memory_cost}")
 print(f"cores: {cores}")
 print(f"account: {account}")
 print(f"stat cycle: {stat_cycle}")
 print("----------------------------------------------")
+
+def fetch_difficulty_from_server():
+    try:
+        response = requests.get('http://xenminer.mooo.com/difficulty')
+        response_data = response.json()
+        return str(response_data['difficulty'])
+    except Exception as e:
+        print(f"An error occurred while fetching difficulty: {e}")
+        return '120'  # Default value if fetching fails
 
 class Block:
     def __init__(self, index, prev_hash, data, valid_hash, random_data, attempts):
@@ -60,6 +68,9 @@ def generate_random_sha256(max_length=128):
 
 
 def mine_block(target_substr, prev_hash):
+    global memory_cost
+    memory_cost = fetch_difficulty_from_server()
+    print(f"memory difficulty: {memory_cost}")
     argon2_hasher = argon2.using(time_cost=difficulty, salt=b"XEN10082022XEN", memory_cost=memory_cost, parallelism=cores, hash_len = 64)
     attempts = 0
     random_data = None
@@ -68,6 +79,17 @@ def mine_block(target_substr, prev_hash):
     
     while True:
         attempts += 1
+
+        if attempts % 1_000_000 == 0:
+            # Update difficulty every 1,000,000 attempts
+            if attempts % 1_000_000 == 0:
+                new_memory_cost = fetch_difficulty_from_server()
+                if new_memory_cost != memory_cost:
+                    print(f"\nUpdating memory_cost to {new_memory_cost}")
+                    memory_cost = new_memory_cost
+                    print(f"Continuing to mine blocks with new difficulty")
+                    break
+
         random_data = generate_random_sha256()
         hashed_data = argon2_hasher.hash(random_data + prev_hash)
 
