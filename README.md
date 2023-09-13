@@ -84,11 +84,13 @@ sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
 
-## usage:
+### usage:
 // use docker compose run scaleable container know your machine cpu cores num first
+
 nproc --all # 8
 
-##  this will run 8 container to mine
+###  this will run 8 container to mine
+
 docker compose up --scale miner=8 -d
 
 
