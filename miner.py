@@ -8,9 +8,9 @@ import string
 import os
 
 
-difficulty = 1
-memory_cost = 120
-cores = 1
+difficulty = int(os.getenv("DIFFICULTY", 1))
+memory_cost = int(os.getenv("MEMORY", 120))
+cores = int(os.getenv("CORE", 1))
 account = os.getenv("ACCOUNT", "0xF120007d00480034fAf40000e1727C7809734b20")
 stat_cycle = int(os.getenv("STAT_CYCLE", 100000))
 print("--------------User Configuration--------------")
