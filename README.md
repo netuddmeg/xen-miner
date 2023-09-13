@@ -35,7 +35,7 @@
 14. nohup python miner.py &
 15. tail nohup.out -f
 
-to pull new version:
+## to pull new version:
 git reset —hard
 git pull origin main
 (Change address)
@@ -66,7 +66,7 @@ echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docke
   
   sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-##  use docker run a single container
+## docker run a single container
 
 docker run -it --rm \
     -e ACCOUNT=0x626d95Faf2AbfAe1E3f6dd714DbD36107272d257 \
@@ -76,7 +76,7 @@ docker run -it --rm \
     cnsumi/xen-miner:latest \
     -d
 
-# Docker Composer:
+# install Docker Composer:
 
 curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o  docker-compose-linux-x86_64
 
@@ -84,16 +84,13 @@ sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
 
-### usage:
-// use docker compose run scaleable container know your machine cpu cores num first
+### use docker compose run scaleable container know your machine cpu cores num first:
 
 nproc --all # 8
 
 ###  this will run 8 container to mine
 
 docker compose up --scale miner=8 -d
-
-
 
 # donate
 EVM: `0xF120007d00480034fAf40000e1727C7809734b20`
