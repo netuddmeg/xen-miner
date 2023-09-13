@@ -3,7 +3,7 @@
 - how use docker container to mine
 
 ```sh
-# CHANGE <ACCOUNT> TO YOUR EVM ADDRESS
+# CHANGE <ACCOUNT> TO YOUR EVM ADDRESS (and uncomment in docker-compose.yml file if its commented)
 
 # use docker run a single container
 docker run -it --rm \
