@@ -58,6 +58,7 @@ echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
 sudo apt-get update
 
 # Install docker:
@@ -66,6 +67,7 @@ echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
   sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 # use docker run a single container
@@ -81,7 +83,9 @@ docker run -it --rm \
 # install Docker Composer:
 
 curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o  docker-compose-linux-x86_64
+
 sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
+
 sudo chmod +x /usr/local/bin/docker-compose
 
 # use docker compose run scaleable container
