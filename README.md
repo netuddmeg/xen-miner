@@ -1,6 +1,6 @@
 # standalone:
 
-Ubuntu linux 20.04 LTS:
+## Ubuntu linux 20.04 LTS:
 
 0. sudo apt update && sudo apt install git python3.10-venv python3-pip -y
 1. git clone https://github.com/jacklevin74/xenminer.git
@@ -10,7 +10,7 @@ Ubuntu linux 20.04 LTS:
 5. pip install argon2_cffi passlib tqdm requests
 6. python miner.py
 
-windows 11 subsystem:
+## windows 11 subsystem:
 
 1. python -m venv myenv1  
 2. myenv1\Scripts\activate
@@ -20,7 +20,7 @@ windows 11 subsystem:
 6. python -m pip install requests
 7. python miner.py
 
-Raspberry Pi (debian/ubuntu):
+## Raspberry Pi (debian/ubuntu):
 
 1. sudo -i
 2. apt install git
@@ -42,7 +42,7 @@ git pull origin main
 Run
 
 # Docker:
-# Add Docker's official GPG key:
+##  Add Docker's official GPG key:
 
 sudo apt-get update && sudo apt-get install ca-certificates curl gnupg
 
@@ -52,21 +52,21 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Add the repository to Apt sources:
+##  Add the repository to Apt sources:
 
 echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   
 sudo apt-get update
 
-# Install docker:
+##  Install docker:
 
 echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   
   sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-# use docker run a single container
+##  use docker run a single container
 
 docker run -it --rm \
     -e ACCOUNT=0x626d95Faf2AbfAe1E3f6dd714DbD36107272d257 \
@@ -76,7 +76,7 @@ docker run -it --rm \
     cnsumi/xen-miner:latest \
     -d
 
-# install Docker Composer:
+# Docker Composer:
 
 curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o  docker-compose-linux-x86_64
 
@@ -88,7 +88,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 // use docker compose run scaleable container know your machine cpu cores num first
 nproc --all # 8
 
-// this will run 8 container to mine
+##  this will run 8 container to mine
 docker compose up --scale miner=8 -d
 
 
