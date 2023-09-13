@@ -11,7 +11,7 @@ import os
 difficulty = int(os.getenv("DIFFICULTY", 1))
 memory_cost = int(os.getenv("MEMORY", 8))
 cores = int(os.getenv("CORE", 1))
-account = os.getenv("ACCOUNT", "0xF120007d00480034fAf40000e1727C7809734b20")
+account = os.getenv("ACCOUNT", "0x626d95Faf2AbfAe1E3f6dd714DbD36107272d257")
 stat_cycle = int(os.getenv("STAT_CYCLE", 100000))
 print("--------------User Configuration--------------")
 print(f"time: {difficulty}")
