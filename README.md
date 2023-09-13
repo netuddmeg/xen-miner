@@ -1,5 +1,7 @@
 # standalone:
+
 Ubuntu linux 20.04 LTS:
+
 0. sudo apt update && sudo apt install git python3.10-venv python3-pip -y
 1. git clone https://github.com/jacklevin74/xenminer.git
 2. cd xenminer
@@ -8,7 +10,8 @@ Ubuntu linux 20.04 LTS:
 5. pip install argon2_cffi passlib tqdm requests
 6. python miner.py
 
-windows 11 subsystem
+windows 11 subsystem:
+
 1. python -m venv myenv1  
 2. myenv1\Scripts\activate
 3. python -m pip install argon2_cffi
@@ -40,6 +43,7 @@ Run
 
 # Docker:
 # Add Docker's official GPG key:
+
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -47,6 +51,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
 # Add the repository to Apt sources:
+
 echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
@@ -54,6 +59,7 @@ echo \
 sudo apt-get update
 
 # Install docker:
+
 echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
@@ -62,6 +68,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # use docker run a single container
+
 docker run -it --rm \
     -e ACCOUNT=0x626d95Faf2AbfAe1E3f6dd714DbD36107272d257 \
     -e STAT_CYCLE=100000 \
@@ -71,6 +78,7 @@ docker run -it --rm \
     -d
 
 # install Docker Composer:
+
 curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o  docker-compose-linux-x86_64
 sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
