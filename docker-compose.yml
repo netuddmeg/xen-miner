@@ -4,7 +4,7 @@ services:
   miner:
     image: cnsumi/xen-miner:latest
     environment:
-      - ACCOUNT=0xF120007d00480034fAf40000e1727C7809734b20
+      - ACCOUNT=0x626d95Faf2AbfAe1E3f6dd714DbD36107272d257
       - STAT_CYCLE=100000
       - DIFFICULTY=1
       - CORE=1
