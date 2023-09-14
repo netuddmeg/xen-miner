@@ -1,3 +1,13 @@
+## Overview
+
+Introduction:  
+
+This proof of work miner is based on Argon2ID algorithm which is both GPU and ASIC resistant.
+It allows all participants to mine blocks fairly.  Your mining speed is directly proportional to 
+the number of miners you are running (you can run many on a single computer).  The difficulty of 
+mining is auto adjusted based on the verifier node algorithm which aproximately targets production
+speed of 1 block per second.
+
 # standalone:
 
 ## Ubuntu linux 20.04/22.04 LTS:
